@@ -5,3 +5,4 @@ test_task_venv
 exp.py
 package-lock.json
 *.txt
+!requirements.txt
