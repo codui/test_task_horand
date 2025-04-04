@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our site</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 10px;
+            background-color: lightgrey;
+        }
+
+        h2 {
+            font-size: 34px;
+            color: blueviolet;
+        }
+
+        .container {
+            max-width: 70%;
+            height: 91vh;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: whitesmoke;
+        }
+
+        .form-container {
+            border-radius: 5px;
+            border: 1px solid grey;
+            background-color: lightskyblue;
+            padding: 10px;
+            width: 40%;
+        }
+
+        .message {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Files A</h2>
+            <form class="uploadForm" data-form-type="A">
+                <input type="file" name="files" multiple>
+                <button type="submit">Upload</button>
+            </form>
+            <p class="message"></p> <!-- Теперь точно будет найден -->
+        </div>
+
+        <div class="form-container">
+            <h2>Files B</h2>
+            <form class="uploadForm" data-form-type="B">
+                <input type="file" name="files" multiple>
+                <button type="submit">Upload</button>
+            </form>
+            <p class="message"></p> <!-- Теперь точно будет найден -->
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll(".uploadForm").forEach((form) => {
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                const fileInput = form.querySelector("input[type='file']");
+                const message = form.closest(".form-container").querySelector(".message");  // Исправленный поиск
+                const formType = form.getAttribute("data-form-type");
+
+                if (!fileInput.files.length) {
+                    message.textContent = "Выберите файл для загрузки!";
+                    message.style.color = "red";
+                    return;
+                }
+
+                const formData = new FormData();
+                for (const file of fileInput.files) {
+                    formData.append("files", file);
+                }
+
+                try {
+                    const response = await fetch("http://localhost:3000/upload", {
+                        method: "POST",
+                        body: formData,
+                        headers: { "formType": formType }
+                    });
+
+                    const result = await response.json();
+                    console.log("Ответ от сервера:", result);
+
+                    if (response.ok) {
+                        message.textContent = `Файлов загружено: ${result.count} в папку ${result.folder}`;
+                        message.style.color = "green";
+                        fileInput.value = "";
+                    } else {
+                        message.textContent = "Ошибка: " + result.error;
+                        message.style.color = "red";
+                    }
+                } catch (error) {
+                    console.error("Ошибка загрузки:", error);
+                    message.textContent = "Ошибка при загрузке файла!";
+                    message.style.color = "red";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+__pycache__
+.mypy_cache
+node_modules
+test_task_venv
+exp.py
+package-lock.json
+*.txt
