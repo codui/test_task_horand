@@ -14,7 +14,6 @@ text_coord = reader.readtext(path_to_image, detail=1)
 
 import os
 import shutil
-import subprocess
 import time
 from pathlib import Path
 
