@@ -1,6 +1,8 @@
 # [Watch a demo of the script on Vimeo. The script recognizes text from images, groups them into folders and sends them to the server.](https://vimeo.com/1074629908?share=copy#t=0)
 
 # [https://vimeo.com/1074629908?share=copy#t=0](https://vimeo.com/1074629908?share=copy#t=0)
+
+![Code_image](img_banner_for_git/img_banner.jpg)
 # To run the project, execute the single_process_work.py file
 
 # First, the site server is launched.
