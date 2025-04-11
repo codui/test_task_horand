@@ -15,6 +15,7 @@ text_coord = reader.readtext(path_to_image, detail=1)
 import os
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 import cv2
@@ -133,9 +134,7 @@ def process_images_and_move_to_folders(source_folder: str = ""):
 
 
 if __name__ == "__main__":
-    # Run local server for site
-    start_server.run()
-
+    start_time = time.time()
     # Initialize the EasyOCR reader
     reader = easyocr.Reader(["en"])
 
@@ -155,4 +154,9 @@ if __name__ == "__main__":
     )
     # print(f"{files_grouped_by_folder=}")
 
+    # Run local server for site
+    start_server.run()
+
     upload_files.upload_files_to_server(files_grouped_by_folder)
+    end_time = time.time()
+    print(f"Total time for execution is: {end_time - start_time}")
