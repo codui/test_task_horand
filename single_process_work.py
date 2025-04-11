@@ -143,15 +143,10 @@ if __name__ == "__main__":
 
     # Debugging and verification
     absolute_root_folder_path = upload_files.get_absolute_path_to_folder()
-    # print(f"{absolute_root_folder_path=}")
-
     folder_names: list = os.listdir(absolute_root_folder_path)
-    # print(f"{folder_names=}")
-
     files_grouped_by_folder: dict = upload_files.organize_files_by_folder_prefix(
         folder_names, absolute_root_folder_path
     )
-    # print(f"{files_grouped_by_folder=}")
 
     # Run local server for site
     start_server.run()
